@@ -1,0 +1,101 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Disease spread simulation</a>
+</nav>
+
+<main role="main" class="container">
+<BR/>
+    <BR/>
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h1>Disease parameters</h1>
+            </div>
+            <div class="card-body">
+                <label for="population">Population</label>
+                <input id="population" class="form-control" type="number" value="10000"/>
+                <label for="numberInfected">Number infected</label>
+                <input id="numberInfected" class="form-control" type="number" value="10"/>
+                <label for="daysInfectious">Days person is infectious</label>
+                <input id="daysInfectious" class="form-control" type="number" value="10"/>
+                <label for="infectOtherCount">Each person infects # people every day</label>
+                <input id="infectOtherCount" class="form-control" type="number" value="1"/>
+                <label for="infectOtherCount">Each person represented by </label>
+                <select id="pixels" class="form-control">
+                    <option value="1">1 pixel</option>
+                    <option value="2">2x2 square</option>
+                    <option value="4">4x4 square</option>
+                </select>
+                <textarea rows=5 class="form-control" readonly>
+Used model:
+This is a very simple model with the following rules:
+- Each person infects a predefined number of people every day they are infectious.
+- Once a person has passed a fixed period, the person is healed and no longer infectious.
+This is overly pessimistic.
+                </textarea>
+
+                <BR/>
+                <button class="btn-primary" id="initbtn" onclick="init()">Initialize Simulation</button>
+            </div>
+        </div>
+
+        <div id="calculating" style="display: none"><H1>Calculating</H1></div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Legend</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success" role="alert">
+                    Healthy person
+                </div>
+                <div class="alert alert-danger" role="alert">
+                    Diseased person
+                </div>
+                <div class="alert alert-primary" role="alert">
+                    Immune person
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Simulation</h3>
+            </div>
+            <div class="card-body">
+                <button class="btn-primary" id="stepbtn" onclick="simulate()">Simulate next step</button><BR/><BR/>
+                <div>Step nr <input type="number" id="stepNr" value="0" disabled/> </div>
+            </div>
+        </div>
+    </div>
+    <BR/>
+    <canvas id="populationCanvas"></canvas>
+
+</main><!-- /.container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/disease-simple.js"></script>
+
+
+</body></html>

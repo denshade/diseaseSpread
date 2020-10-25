@@ -23,7 +23,7 @@ class Person
         }
     }
 
-    public tryHeal()
+    public progressDisease()
     {
         if (this.isInfected)
         {
@@ -47,6 +47,8 @@ const populationSize = () => parseInt((document.getElementById('population') as 
 const infectedSize =  () =>parseInt((document.getElementById('numberInfected') as HTMLInputElement).value);
 const daysInfectious = () => parseInt((document.getElementById('daysInfectious') as HTMLInputElement).value);
 const infectOtherCount = () => parseInt((<HTMLInputElement>document.getElementById('infectOtherCount')).value);
+const stepNrElement = () => (<HTMLInputElement>document.getElementById('stepNr'));
+
 
 //LOGIC
 const render = (canvas: HTMLCanvasElement, persons : Person[]) =>
@@ -95,11 +97,7 @@ const initializePopulation = (populationOfPersons: Person[], numberPeople : numb
 const infectOthers = (infectOtherCount : number, daysInfectious: number) => {
     const infected = populationOfPersons.filter(s => s.isInfected === true);
 
-    for (let k = 0; k < infected.length; k++)
-    {
-        let p: Person = infected[k];
-        p.tryHeal();
-    }
+    infected.forEach((infected) => infected.progressDisease());
 
     for (let k = 0; k < infected.length; k++)
     {
@@ -141,8 +139,11 @@ const init = () => {
 
 const simulate = () => {
     hideElements();
+    let stepNrEl = stepNrElement();
+    stepNrEl.value = (parseInt(stepNrEl.value) + 1) + "";
 
     infectOthers(infectOtherCount(), daysInfectious());
+
     render(canvas(), populationOfPersons);
 
     showElements();

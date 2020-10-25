@@ -5,6 +5,7 @@ var Person = /** @class */ (function () {
             this.tryInfect(daysUntilHealed);
         }
         this.isImmune = false;
+        this.infectedVictims = 0;
     }
     Person.prototype.tryInfect = function (daysInfectious) {
         if (!this.isImmune && !this.isInfected) {
@@ -12,7 +13,7 @@ var Person = /** @class */ (function () {
             this.daysUntilHealed = daysInfectious;
         }
     };
-    Person.prototype.tryHeal = function () {
+    Person.prototype.progressDisease = function () {
         if (this.isInfected) {
             this.daysUntilHealed--;
             if (this.daysUntilHealed < 1) {
@@ -32,6 +33,7 @@ var populationSize = function () { return parseInt(document.getElementById('popu
 var infectedSize = function () { return parseInt(document.getElementById('numberInfected').value); };
 var daysInfectious = function () { return parseInt(document.getElementById('daysInfectious').value); };
 var infectOtherCount = function () { return parseInt(document.getElementById('infectOtherCount').value); };
+var stepNrElement = function () { return document.getElementById('stepNr'); };
 //LOGIC
 var render = function (canvas, persons) {
     var sizeElement = document.getElementById('pixels');
@@ -71,15 +73,14 @@ var initializePopulation = function (populationOfPersons, numberPeople, infected
 };
 var infectOthers = function (infectOtherCount, daysInfectious) {
     var infected = populationOfPersons.filter(function (s) { return s.isInfected === true; });
+    infected.forEach(function (infected) { return infected.progressDisease(); });
     for (var k = 0; k < infected.length; k++) {
-        var p = infected[k];
-        p.tryHeal();
-    }
-    for (var k = 0; k < infected.length; k++) {
-        for (var z = 0; z < infectOtherCount; z++) {
+        var infector = infected[k];
+        if (infector.infectedVictims < infectOtherCount) {
             var index = Math.round(Math.random() * (populationOfPersons.length - 1));
             var p = populationOfPersons[index];
             p.tryInfect(daysInfectious);
+            infector.infectedVictims++;
         }
     }
 };
@@ -101,12 +102,15 @@ var showElements = function () {
 };
 var init = function () {
     hideElements();
+    stepNrElement().value = "0";
     initializePopulation(populationOfPersons, populationSize(), infectedSize(), daysInfectious());
     render(canvas(), populationOfPersons);
     showElements();
 };
 var simulate = function () {
     hideElements();
+    var stepNrEl = stepNrElement();
+    stepNrEl.value = (parseInt(stepNrEl.value) + 1) + "";
     infectOthers(infectOtherCount(), daysInfectious());
     render(canvas(), populationOfPersons);
     showElements();
