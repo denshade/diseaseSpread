@@ -31,14 +31,16 @@
             </div>
             <div class="card-body">
                 <label for="population">Population</label>
-                <input id="population" class="form-control" type="number" value="1000000"/>
+                <input id="population" class="form-control" type="number" value="10000"/>
                 <label for="numberInfected">Number infected</label>
                 <input id="numberInfected" class="form-control" type="number" value="10"/>
+                <label for="daysInfectious">Days person is infectious</label>
+                <input id="daysInfectious" class="form-control" type="number" value="10"/>
                 <label for="infectOtherCount">Each person infects # people</label>
                 <input id="infectOtherCount" class="form-control" type="number" value="1"/>
                 <BR/>
-                <button class="btn-primary" onclick="init()">Initialize Simulation</button>
-                <button class="btn-primary" onclick="simulate()">Simulate next step</button>
+                <button class="btn-primary" id="initbtn" onclick="init()">Initialize Simulation</button>
+                <button class="btn-primary" id="stepbtn" onclick="simulate()">Simulate next step</button>
             </div>
         </div>
 
