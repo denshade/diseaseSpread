@@ -131,7 +131,6 @@ const showElements = () => {
 
 const init = () => {
     hideElements();
-
     initializePopulation(populationOfPersons, populationSize(), infectedSize(), daysInfectious());
     render(canvas(), populationOfPersons)
     showElements();
@@ -139,6 +138,10 @@ const init = () => {
 
 const simulate = () => {
     hideElements();
+    if (populationOfPersons.length == 0) {
+        init();
+    }
+
     let stepNrEl = stepNrElement();
     stepNrEl.value = (parseInt(stepNrEl.value) + 1) + "";
 

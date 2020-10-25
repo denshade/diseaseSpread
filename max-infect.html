@@ -38,6 +38,13 @@
 <BR/>
     <BR/>
     <div>
+                        <textarea rows=5 class="form-control" readonly>
+The Max infect model has the following rules:
+- Each person infects a predefined number of people when they are infectious. They infect all people at the beginning of their disease.
+- Once a person has passed a fixed period, the person is healed and no longer infectious.
+- Some percentage will die. Dead persons never had the opportunity to spread the disease.
+                </textarea><BR/>
+
         <div class="card">
             <div class="card-header">
                 <h1>Disease parameters</h1>
@@ -59,13 +66,6 @@
                     <option value="2">2x2 square</option>
                     <option value="4">4x4 square</option>
                 </select>
-                <textarea rows=5 class="form-control" readonly>
-Used model:
-This is a simple model with the following rules:
-- Each person infects a predefined number of people when they are infectious. They infect all people at the beginning of their disease.
-- Once a person has passed a fixed period, the person is healed and no longer infectious.
-- Some percentage will die. Dead persons never had the opportunity to spread the disease.
-                </textarea>
 
                 <BR/>
                 <button class="btn-primary" id="initbtn" onclick="init()">Initialize Simulation</button>
@@ -111,8 +111,10 @@ This is a simple model with the following rules:
 </main><!-- /.container -->
 <div class="d-flex justify-content-center">
 <canvas id="populationCanvas"></canvas>
-    <BR/>
 </div>
+<BR/>
+<BR/>
+<BR/>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
@@ -120,6 +122,7 @@ This is a simple model with the following rules:
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/disease-max-infect.js"></script>
+<script>init();</script>
 
 
 </body></html>

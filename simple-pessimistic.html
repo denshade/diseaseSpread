@@ -37,6 +37,13 @@
 <main role="main" class="container">
 <BR/>
     <BR/>
+    <textarea rows=5 class="form-control" readonly>
+The simple pessimistic model has the following rules:
+- Each person infects a predefined number of people every day they are infectious.
+- Once a person has passed a fixed period, the person is healed and no longer infectious.
+This is overly pessimistic.
+                </textarea>
+<BR/>
     <div>
         <div class="card">
             <div class="card-header">
@@ -57,18 +64,12 @@
                     <option value="2">2x2 square</option>
                     <option value="4">4x4 square</option>
                 </select>
-                <textarea rows=5 class="form-control" readonly>
-Used model:
-This is a very simple model with the following rules:
-- Each person infects a predefined number of people every day they are infectious.
-- Once a person has passed a fixed period, the person is healed and no longer infectious.
-This is overly pessimistic.
-                </textarea>
 
                 <BR/>
                 <button class="btn-primary" id="initbtn" onclick="init()">Initialize Simulation</button>
             </div>
         </div>
+        <BR/>
 
         <div id="calculating" style="display: none"><H1>Calculating</H1></div>
         <div class="card">
@@ -87,6 +88,7 @@ This is overly pessimistic.
                 </div>
             </div>
         </div>
+        <BR/>
         <div class="card">
             <div class="card-header">
                 <h3>Simulation</h3>
@@ -98,9 +100,13 @@ This is overly pessimistic.
         </div>
     </div>
     <BR/>
-    <canvas id="populationCanvas"></canvas>
-
+    <div class="d-flex justify-content-center">
+        <canvas id="populationCanvas"></canvas>
+    </div>
 </main><!-- /.container -->
+<BR/>
+<BR/>
+<BR/>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -109,6 +115,7 @@ This is overly pessimistic.
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/disease-simple.js"></script>
+<script>init();</script>
 
 
 </body></html>

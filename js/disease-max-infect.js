@@ -128,6 +128,9 @@ var init = function () {
 };
 var simulate = function () {
     hideElements();
+    if (populationOfPersons.length == 0) {
+        init();
+    }
     var stepNrEl = stepNrElement();
     stepNrEl.value = (parseInt(stepNrEl.value) + 1) + "";
     infectOthers(infectOtherCount(), daysInfectious());
@@ -136,6 +139,9 @@ var simulate = function () {
 };
 var simulate10 = function () {
     hideElements();
+    if (populationOfPersons.length == 0) {
+        init();
+    }
     var stepNrEl = stepNrElement();
     stepNrEl.value = (parseInt(stepNrEl.value) + 10) + "";
     for (var k = 0; k < 10; k++)

@@ -105,6 +105,9 @@ var init = function () {
 };
 var simulate = function () {
     hideElements();
+    if (populationOfPersons.length == 0) {
+        init();
+    }
     var stepNrEl = stepNrElement();
     stepNrEl.value = (parseInt(stepNrEl.value) + 1) + "";
     infectOthers(infectOtherCount(), daysInfectious());
