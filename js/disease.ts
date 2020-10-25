@@ -41,6 +41,14 @@ class Person
     }
 }
 
+//SELECTORS
+const canvas = () => document.getElementById('populationCanvas') as HTMLCanvasElement;
+const populationSize = () => parseInt((document.getElementById('population') as HTMLInputElement).value);
+const infectedSize =  () =>parseInt((document.getElementById('numberInfected') as HTMLInputElement).value);
+const daysInfectious = () => parseInt((document.getElementById('daysInfectious') as HTMLInputElement).value);
+const infectOtherCount = () => parseInt((<HTMLInputElement>document.getElementById('infectOtherCount')).value);
+
+//LOGIC
 const render = (canvas: HTMLCanvasElement, persons : Person[]) =>
 {
     const sizeElement = document.getElementById('pixels') as HTMLSelectElement;
@@ -51,11 +59,10 @@ const render = (canvas: HTMLCanvasElement, persons : Person[]) =>
     const squareSize : number =  Math.ceil(Math.sqrt(persons.length));
     canvas.width = squareSize * personSize;
     canvas.height = squareSize * personSize;
-    const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, squareSize * personSize, squareSize* personSize);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    //433
     for (let k = 0; k < persons.length; k++ ) {
         if (persons[k].isInfected) {
             ctx.fillStyle = "#721c24";
@@ -126,28 +133,17 @@ const showElements = () => {
 
 const init = () => {
     hideElements();
-    const canvas = <HTMLCanvasElement>document.getElementById('populationCanvas');
-    const populationString = (<HTMLInputElement>document.getElementById('population')).value;
-    const populationSize : number = parseInt(populationString);
-    const infectedString = (<HTMLInputElement>document.getElementById('numberInfected')).value;
-    const infectedSize : number = parseInt(infectedString);
-    const daysInfectiousStr = (<HTMLInputElement>document.getElementById('daysInfectious')).value;
-    const daysInfectious : number = parseInt(daysInfectiousStr);
 
-    initializePopulation(populationOfPersons, populationSize, infectedSize, daysInfectious);
-    render(canvas, populationOfPersons)
+    initializePopulation(populationOfPersons, populationSize(), infectedSize(), daysInfectious());
+    render(canvas(), populationOfPersons)
     showElements();
 }
 
 const simulate = () => {
     hideElements();
 
-    const canvas = <HTMLCanvasElement>document.getElementById('populationCanvas');
-    const infectOtherCountStr = (<HTMLInputElement>document.getElementById('infectOtherCount')).value;
-    const infectOtherCount : number = parseInt(infectOtherCountStr);
-    const daysInfectiousStr = (<HTMLInputElement>document.getElementById('daysInfectious')).value;
-    const daysInfectious : number = parseInt(daysInfectiousStr);
-    infectOthers(infectOtherCount, daysInfectious);
-    render(canvas, populationOfPersons);
+    infectOthers(infectOtherCount(), daysInfectious());
+    render(canvas(), populationOfPersons);
+
     showElements();
 }

@@ -26,6 +26,13 @@ var Person = /** @class */ (function () {
     };
     return Person;
 }());
+//SELECTORS
+var canvas = function () { return document.getElementById('populationCanvas'); };
+var populationSize = function () { return parseInt(document.getElementById('population').value); };
+var infectedSize = function () { return parseInt(document.getElementById('numberInfected').value); };
+var daysInfectious = function () { return parseInt(document.getElementById('daysInfectious').value); };
+var infectOtherCount = function () { return parseInt(document.getElementById('infectOtherCount').value); };
+//LOGIC
 var render = function (canvas, persons) {
     var sizeElement = document.getElementById('pixels');
     var selectedOption = sizeElement.selectedOptions.item(0);
@@ -36,8 +43,7 @@ var render = function (canvas, persons) {
     canvas.height = squareSize * personSize;
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, squareSize * personSize, squareSize * personSize);
-    //433
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (var k = 0; k < persons.length; k++) {
         if (persons[k].isInfected) {
             ctx.fillStyle = "#721c24";
@@ -95,25 +101,13 @@ var showElements = function () {
 };
 var init = function () {
     hideElements();
-    var canvas = document.getElementById('populationCanvas');
-    var populationString = document.getElementById('population').value;
-    var populationSize = parseInt(populationString);
-    var infectedString = document.getElementById('numberInfected').value;
-    var infectedSize = parseInt(infectedString);
-    var daysInfectiousStr = document.getElementById('daysInfectious').value;
-    var daysInfectious = parseInt(daysInfectiousStr);
-    initializePopulation(populationOfPersons, populationSize, infectedSize, daysInfectious);
-    render(canvas, populationOfPersons);
+    initializePopulation(populationOfPersons, populationSize(), infectedSize(), daysInfectious());
+    render(canvas(), populationOfPersons);
     showElements();
 };
 var simulate = function () {
     hideElements();
-    var canvas = document.getElementById('populationCanvas');
-    var infectOtherCountStr = document.getElementById('infectOtherCount').value;
-    var infectOtherCount = parseInt(infectOtherCountStr);
-    var daysInfectiousStr = document.getElementById('daysInfectious').value;
-    var daysInfectious = parseInt(daysInfectiousStr);
-    infectOthers(infectOtherCount, daysInfectious);
-    render(canvas, populationOfPersons);
+    infectOthers(infectOtherCount(), daysInfectious());
+    render(canvas(), populationOfPersons);
     showElements();
 };
