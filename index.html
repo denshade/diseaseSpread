@@ -1,0 +1,59 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Disease spread simulation</a>
+</nav>
+
+<main role="main" class="container">
+<BR/>
+    <BR/>
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h1>Disease parameters</h1>
+            </div>
+            <div class="card-body">
+                <label for="population">Population</label>
+                <input id="population" class="form-control" type="number" value="1000000"/>
+                <label for="numberInfected">Number infected</label>
+                <input id="numberInfected" class="form-control" type="number" value="10"/>
+                <label for="infectOtherCount">Each person infects # people</label>
+                <input id="infectOtherCount" class="form-control" type="number" value="1"/>
+                <BR/>
+                <button class="btn-primary" onclick="init()">Initialize Simulation</button>
+                <button class="btn-primary" onclick="simulate()">Simulate next step</button>
+            </div>
+        </div>
+
+        <canvas id="populationCanvas"></canvas>
+    </div>
+
+</main><!-- /.container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/disease.js"></script>
+
+
+</body></html>
