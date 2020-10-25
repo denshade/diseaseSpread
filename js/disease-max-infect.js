@@ -6,11 +6,18 @@ var Person = /** @class */ (function () {
         }
         this.isImmune = false;
         this.infectedVictims = 0;
+        this.isDead = false;
     }
     Person.prototype.tryInfect = function (daysInfectious) {
         if (!this.isImmune && !this.isInfected) {
-            this.isInfected = true;
-            this.daysUntilHealed = daysInfectious;
+            if (Math.random() * 100 < deathRate()) {
+                this.isDead = true;
+                this.isInfected = false;
+            }
+            else {
+                this.isInfected = true;
+                this.daysUntilHealed = daysInfectious;
+            }
         }
     };
     Person.prototype.progressDisease = function () {
@@ -34,6 +41,10 @@ var infectedSize = function () { return parseInt(document.getElementById('number
 var daysInfectious = function () { return parseInt(document.getElementById('daysInfectious').value); };
 var infectOtherCount = function () { return parseInt(document.getElementById('infectOtherCount').value); };
 var stepNrElement = function () { return document.getElementById('stepNr'); };
+var deathRate = function () { return parseInt(document.getElementById('deathPercentage').value); };
+var deathCount = function () { return document.getElementById('deathCount'); };
+var immuneCount = function () { return document.getElementById('immuneCount'); };
+var diseasedCount = function () { return document.getElementById('diseasedCount'); };
 //LOGIC
 var render = function (canvas, persons) {
     var sizeElement = document.getElementById('pixels');
@@ -47,7 +58,10 @@ var render = function (canvas, persons) {
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (var k = 0; k < persons.length; k++) {
-        if (persons[k].isInfected) {
+        if (persons[k].isDead) {
+            ctx.fillStyle = "#000000";
+        }
+        else if (persons[k].isInfected) {
             ctx.fillStyle = "#721c24";
         }
         else if (persons[k].isImmune) {
@@ -58,6 +72,9 @@ var render = function (canvas, persons) {
         }
         ctx.fillRect(Math.floor(k % squareSize) * personSize, Math.floor(k / squareSize) * personSize, personSize, personSize);
     }
+    deathCount().value = (100 * persons.filter(function (v) { return v.isDead === true; }).length / persons.length) + "";
+    immuneCount().value = (100 * persons.filter(function (v) { return v.isImmune === true; }).length / persons.length) + "";
+    diseasedCount().value = (100 * persons.filter(function (v) { return v.isInfected === true; }).length / persons.length) + "";
     var end = new Date().getTime();
     console.log("Performance " + (end - start));
 };
@@ -89,6 +106,7 @@ var hideElements = function () {
     initbtn.disabled = true;
     var stepbtn = document.getElementById('stepbtn');
     stepbtn.disabled = true;
+    stepbtn.value = "Running";
     var calculating = document.getElementById('calculating');
     calculating.style.display = 'block';
 };
@@ -97,6 +115,7 @@ var showElements = function () {
     initbtn.disabled = false;
     var stepbtn = document.getElementById('stepbtn');
     stepbtn.disabled = false;
+    stepbtn.value = "Simulate next step";
     var calculating = document.getElementById('calculating');
     calculating.style.display = 'none';
 };
@@ -112,6 +131,15 @@ var simulate = function () {
     var stepNrEl = stepNrElement();
     stepNrEl.value = (parseInt(stepNrEl.value) + 1) + "";
     infectOthers(infectOtherCount(), daysInfectious());
+    render(canvas(), populationOfPersons);
+    showElements();
+};
+var simulate10 = function () {
+    hideElements();
+    var stepNrEl = stepNrElement();
+    stepNrEl.value = (parseInt(stepNrEl.value) + 10) + "";
+    for (var k = 0; k < 10; k++)
+        infectOthers(infectOtherCount(), daysInfectious());
     render(canvas(), populationOfPersons);
     showElements();
 };

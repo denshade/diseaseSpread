@@ -38,7 +38,9 @@
                 <input id="daysInfectious" class="form-control" type="number" value="10"/>
                 <label for="infectOtherCount">Each person infects # people over the scope of their entire disease</label>
                 <input id="infectOtherCount" class="form-control" type="number" value="1"/>
-                <label for="infectOtherCount">Each person represented by </label>
+                <label for="deathPercentage">Death percentage in %</label>
+                <input id="deathPercentage" class="form-control" type="number" value="1"/>
+                <label for="pixels">Represent each person with a square of:</label>
                 <select id="pixels" class="form-control">
                     <option value="1">1 pixel</option>
                     <option value="2">2x2 square</option>
@@ -49,6 +51,7 @@ Used model:
 This is a simple model with the following rules:
 - Each person infects a predefined number of people when they are infectious. They infect all people at the beginning of their disease.
 - Once a person has passed a fixed period, the person is healed and no longer infectious.
+- Some percentage will die. Dead persons never had the opportunity to spread the disease.
                 </textarea>
 
                 <BR/>
@@ -71,6 +74,9 @@ This is a simple model with the following rules:
                 <div class="alert alert-primary" role="alert">
                     Immune person
                 </div>
+                <div class="alert alert-dark" role="alert">
+                    Dead person
+                </div>
             </div>
         </div>
         <div class="card">
@@ -79,7 +85,11 @@ This is a simple model with the following rules:
             </div>
             <div class="card-body">
                 <button class="btn-primary" id="stepbtn" onclick="simulate()">Simulate next step</button><BR/><BR/>
-                <div>Step nr <input type="number" id="stepNr" value="0" disabled/> </div>
+                <button class="btn-primary" id="step10btn" onclick="simulate10()">Simulate 10 next steps</button><BR/><BR/>
+                <div>Step nr <input class="form-control" type="number" id="stepNr" value="0" disabled/> </div>
+                <div>Number diseased (%) <input class="form-control" type="number" id="diseasedCount" value="0" disabled/> </div>
+                <div>Number immune (%)<input  class="form-control" type="number" id="immuneCount" value="0" disabled/> </div>
+                <div>Number dead (%)<input  class="form-control" type="number" id="deathCount" value="0" disabled/> </div>
             </div>
         </div>
     </div>
@@ -88,6 +98,7 @@ This is a simple model with the following rules:
 </main><!-- /.container -->
 <div class="d-flex justify-content-center">
 <canvas id="populationCanvas"></canvas>
+    <BR/>
 </div>
 <!-- Bootstrap core JavaScript
 ================================================== -->
