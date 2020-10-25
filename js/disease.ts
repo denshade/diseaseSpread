@@ -43,25 +43,28 @@ class Person
 
 const render = (canvas: HTMLCanvasElement, persons : Person[]) =>
 {
+    const sizeElement = document.getElementById('pixels') as HTMLSelectElement;
+    const selectedOption = sizeElement.selectedOptions.item(0);
+    const personSize = parseInt(selectedOption.value);
     var start = new Date().getTime();
 
     const squareSize : number =  Math.ceil(Math.sqrt(persons.length));
-    canvas.width = squareSize;
-    canvas.height = squareSize;
+    canvas.width = squareSize * personSize;
+    canvas.height = squareSize * personSize;
     const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
-    ctx.fillStyle = "#FFF000";
-    ctx.fillRect(0, 0, squareSize, squareSize);
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, squareSize * personSize, squareSize* personSize);
 
     //433
     for (let k = 0; k < persons.length; k++ ) {
         if (persons[k].isInfected) {
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "#721c24";
         } else if (persons[k].isImmune) {
-            ctx.fillStyle = "blue";
+            ctx.fillStyle = "#004085";
         } else {
-            ctx.fillStyle = "green";
+            ctx.fillStyle = "#155724";
         }
-        ctx.fillRect(k % squareSize,k / squareSize,1, 1);
+        ctx.fillRect(Math.floor(k % squareSize) * personSize,Math.floor(k / squareSize)*personSize, personSize, personSize);
     }
 
     var end = new Date().getTime();
@@ -102,10 +105,27 @@ const infectOthers = (infectOtherCount : number, daysInfectious: number) => {
     }
 }
 
-const init = () => {
+const hideElements = () =>
+{
     const initbtn = document.getElementById('initbtn')  as HTMLInputElement;
     initbtn.disabled = true;
+    const stepbtn = document.getElementById('stepbtn')  as HTMLInputElement;
+    stepbtn.disabled = true;
+    const calculating = document.getElementById('calculating')  as HTMLDivElement;
+    calculating.style.display = 'block';
+}
 
+const showElements = () => {
+    const initbtn = document.getElementById('initbtn')  as HTMLInputElement;
+    initbtn.disabled = false;
+    const stepbtn = document.getElementById('stepbtn')  as HTMLInputElement;
+    stepbtn.disabled = false;
+    const calculating = document.getElementById('calculating')  as HTMLDivElement;
+    calculating.style.display = 'none';
+}
+
+const init = () => {
+    hideElements();
     const canvas = <HTMLCanvasElement>document.getElementById('populationCanvas');
     const populationString = (<HTMLInputElement>document.getElementById('population')).value;
     const populationSize : number = parseInt(populationString);
@@ -116,16 +136,11 @@ const init = () => {
 
     initializePopulation(populationOfPersons, populationSize, infectedSize, daysInfectious);
     render(canvas, populationOfPersons)
-    initbtn.disabled = false;
+    showElements();
 }
 
 const simulate = () => {
-
-    const initbtn = document.getElementById('initbtn')  as HTMLInputElement;
-    const stepbtn = document.getElementById('stepbtn')  as HTMLInputElement;
-
-    initbtn.disabled = true;
-    stepbtn.disabled = true;
+    hideElements();
 
     const canvas = <HTMLCanvasElement>document.getElementById('populationCanvas');
     const infectOtherCountStr = (<HTMLInputElement>document.getElementById('infectOtherCount')).value;
@@ -134,6 +149,5 @@ const simulate = () => {
     const daysInfectious : number = parseInt(daysInfectiousStr);
     infectOthers(infectOtherCount, daysInfectious);
     render(canvas, populationOfPersons);
-    initbtn.disabled = false;
-    stepbtn.disabled = false;
+    showElements();
 }

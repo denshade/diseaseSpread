@@ -27,25 +27,28 @@ var Person = /** @class */ (function () {
     return Person;
 }());
 var render = function (canvas, persons) {
+    var sizeElement = document.getElementById('pixels');
+    var selectedOption = sizeElement.selectedOptions.item(0);
+    var personSize = parseInt(selectedOption.value);
     var start = new Date().getTime();
     var squareSize = Math.ceil(Math.sqrt(persons.length));
-    canvas.width = squareSize;
-    canvas.height = squareSize;
+    canvas.width = squareSize * personSize;
+    canvas.height = squareSize * personSize;
     var ctx = canvas.getContext('2d');
-    ctx.fillStyle = "#FFF000";
-    ctx.fillRect(0, 0, squareSize, squareSize);
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, squareSize * personSize, squareSize * personSize);
     //433
     for (var k = 0; k < persons.length; k++) {
         if (persons[k].isInfected) {
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "#721c24";
         }
         else if (persons[k].isImmune) {
-            ctx.fillStyle = "blue";
+            ctx.fillStyle = "#004085";
         }
         else {
-            ctx.fillStyle = "green";
+            ctx.fillStyle = "#155724";
         }
-        ctx.fillRect(k % squareSize, k / squareSize, 1, 1);
+        ctx.fillRect(Math.floor(k % squareSize) * personSize, Math.floor(k / squareSize) * personSize, personSize, personSize);
     }
     var end = new Date().getTime();
     console.log("Performance " + (end - start));
@@ -74,9 +77,24 @@ var infectOthers = function (infectOtherCount, daysInfectious) {
         }
     }
 };
-var init = function () {
+var hideElements = function () {
     var initbtn = document.getElementById('initbtn');
     initbtn.disabled = true;
+    var stepbtn = document.getElementById('stepbtn');
+    stepbtn.disabled = true;
+    var calculating = document.getElementById('calculating');
+    calculating.style.display = 'block';
+};
+var showElements = function () {
+    var initbtn = document.getElementById('initbtn');
+    initbtn.disabled = false;
+    var stepbtn = document.getElementById('stepbtn');
+    stepbtn.disabled = false;
+    var calculating = document.getElementById('calculating');
+    calculating.style.display = 'none';
+};
+var init = function () {
+    hideElements();
     var canvas = document.getElementById('populationCanvas');
     var populationString = document.getElementById('population').value;
     var populationSize = parseInt(populationString);
@@ -86,13 +104,10 @@ var init = function () {
     var daysInfectious = parseInt(daysInfectiousStr);
     initializePopulation(populationOfPersons, populationSize, infectedSize, daysInfectious);
     render(canvas, populationOfPersons);
-    initbtn.disabled = false;
+    showElements();
 };
 var simulate = function () {
-    var initbtn = document.getElementById('initbtn');
-    var stepbtn = document.getElementById('stepbtn');
-    initbtn.disabled = true;
-    stepbtn.disabled = true;
+    hideElements();
     var canvas = document.getElementById('populationCanvas');
     var infectOtherCountStr = document.getElementById('infectOtherCount').value;
     var infectOtherCount = parseInt(infectOtherCountStr);
@@ -100,6 +115,5 @@ var simulate = function () {
     var daysInfectious = parseInt(daysInfectiousStr);
     infectOthers(infectOtherCount, daysInfectious);
     render(canvas, populationOfPersons);
-    initbtn.disabled = false;
-    stepbtn.disabled = false;
+    showElements();
 };
